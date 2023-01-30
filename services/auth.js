@@ -18,7 +18,7 @@ const auth = {
             const token = jwt.sign({
                 id: user._id,
                 nome: user.nome,
-                perfil: user.perfil
+                tipo: user.tipo
             }, secret);
             return token;
         } catch (error) {

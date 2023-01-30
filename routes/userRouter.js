@@ -84,9 +84,9 @@ router.delete("/usuario/:id", async function (req, res) {
 
 router.post("/usuario/login", async function (req, res, next) {
     try {
-        const { email, password } = req.body;
+        const { email, senha } = req.body;
 
-        if (!email || !password) {
+        if (!email || !senha) {
             return res.status(401).json({ error: "Usuário sem acesso!" });
         }
 
@@ -94,7 +94,7 @@ router.post("/usuario/login", async function (req, res, next) {
         if (!user) {
             return res.status(401).json({ error: "Usuário sem acesso!" });
         }
-        await auth.comparePasswords(password, user.senha);
+        await auth.comparePasswords(senha, user.senha);
         const token = auth.createToken(user);
         return res.status(200).json({ message: "Usuário logado!", token: token });
     } catch (error) {
@@ -121,11 +121,10 @@ router.post('/usuario/upload', upload.array('file'), async function (req, res) {
     }
 });
 
-// Functions 
+// Função de registro de usuários 
 function monteUser(req) {
     const {
         nome,
-        foto,
         cpf,
         email,
         senha,
@@ -137,7 +136,6 @@ function monteUser(req) {
 
     const user = {
         nome,
-        foto,
         cpf,
         email,
         senha,
@@ -150,26 +148,25 @@ function monteUser(req) {
     return user;
 }
 
-function validUser(user, update = false) {
+function validUser(user) {
     let error = 0;
 
-    if (!update)
-        if (!user.email) {
-            error++;
-            //res.status(422).json({ message: "E-mail obrigatório!" });
-            //return
-        }
+    if (!user.email) {
+        error++;
+        res.status(422).json({ message: "E-mail obrigatório!" });
+        return
+    }
 
     if (!user.nome) {
         error++;
-        //res.status(422).json({ message: "Nome obrigatório!" });
-        //return;
+        res.status(422).json({ message: "Nome obrigatório!" });
+        return;
     }
 
     if (!user.senha) {
         error++;
-        //res.status(422).json({ message: "Senha obrigatório!" });
-        //return;
+        res.status(422).json({ message: "Senha obrigatório!" });
+        return;
     }
 
     if (error > 0) {
@@ -180,7 +177,7 @@ function validUser(user, update = false) {
 async function verifyUserExist(email) {
     let user = await User.exists({ email: email });
     if (user) {
-        throw new Error('Error ao cadastrar ou usuário já cadastrado!');
+        throw new Error('Erro ao cadastrar ou usuário já cadastrado!');
     }
 }
 
