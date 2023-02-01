@@ -24,7 +24,7 @@ router.get("/usuario/list", async function (req, res) {
         let users = await User.find();
         res.status(200).json(users);
     } catch (error) {
-        res.status(500).json({ error: "Erro ao cadastrar!" });
+        res.status(500).json({ error: "Erro ao listar!" });
     }
 });
 
@@ -34,7 +34,7 @@ router.get("/usuario/:id", async function (req, res) {
         let user = await User.findOne({ _id: iduser });
         res.status(200).json(user);
     } catch (error) {
-        res.status(500).json({ error: "Erro ao cadastrar!" });
+        res.status(500).json({ error: "Erro ao procurar!" });
     }
 });
 
@@ -99,7 +99,7 @@ router.post("/usuario/login", async function (req, res, next) {
         return res.status(200).json({ message: "Usuário logado!", token: token });
     } catch (error) {
         console.error("Error:", error.message);
-        return res.status(500).json({ error: "Error ao entrar!" });
+        return res.status(500).json({ error: "Erro ao entrar!" });
     }
 });
 
@@ -170,7 +170,7 @@ function validUser(user) {
     }
 
     if (error > 0) {
-        throw new Error('Error ao cadastrar ou usuário já cadastrado!');
+        throw new Error('Erro ao cadastrar ou usuário já cadastrado!');
     }
 }
 
