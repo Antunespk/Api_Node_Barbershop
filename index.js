@@ -34,7 +34,7 @@ app.use(userRouter);
 //Banco de Dados
 const DB_USER = process.env.DB_USER;
 const DB_PASS = encodeURIComponent(process.env.DB_PASS);
-// const DB_URI = `mongodb + srv://:${DB_USER}:${DB_PASS}@api021.h2x5dw1.mongodb.net/test`;
+const DB_URI = `mongodb + srv://:${DB_USER}:${DB_PASS}@api021.h2x5dw1.mongodb.net/test`;
 
 mongoose.set('strictQuery', false);
 mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASS}@api021.h2x5dw1.mongodb.net/test`)
