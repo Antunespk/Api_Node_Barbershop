@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const auth = require('../services/auth');
-const usuario = require('../models/usuario');
+const usuario = require('../models/Usuario');
 const multer = require('multer');
 
 router.post("/usuario/add", async function (req, res) {
