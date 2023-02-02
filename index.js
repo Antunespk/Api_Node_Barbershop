@@ -27,20 +27,20 @@ app.get("/", function (req, res) {
 // res.status(200).json({ message: "Bem vindo!" });
 // });
 
-const userRouter = require("./routes/userRouter");
+const usuarioRouter = require("./routes/usuarioRouter");
 
-app.use(userRouter);
+app.use(usuarioRouter);
 
 //Banco de Dados
-const DB_USER = process.env.DB_USER;
+const DB_usuario = process.env.DB_usuario;
 const DB_PASS = encodeURIComponent(process.env.DB_PASS);
-// const DB_URI = `mongodb+srv://:${DB_USER}:${DB_PASS}@api021.h2x5dw1.mongodb.net/test`;
+// const DB_URI = `mongodb+srv://:${DB_usuario}:${DB_PASS}@api021.h2x5dw1.mongodb.net/test`;
 
 mongoose.set('strictQuery', false);
-mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASS}@api021.h2x5dw1.mongodb.net/test`)
+mongoose.connect(`mongodb+srv://${DB_usuario}:${DB_PASS}@api021.h2x5dw1.mongodb.net/test`)
     .then(result => {
         console.log("Conectado!");
-        app.listen(5050);
+        app.listen(process.env.PORT || 5050);
     })
     .catch(err => {
         console.error("Error: ", err.message);

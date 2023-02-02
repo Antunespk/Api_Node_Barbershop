@@ -2,23 +2,23 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 const auth = {
-    createNewPass: async function (password) {
+    createNewPass: async function (senha) {
         const salt = await bcrypt.genSalt(12);
-        return await bcrypt.hash(password, salt);
+        return await bcrypt.hash(senha, salt);
     },
-    comparePasswords: async function (passwordUser, passwordDB) {
-        const checkPass = await bcrypt.compare(passwordUser, passwordDB);
+    comparesenhas: async function (senhaUsuario, senhaDB) {
+        const checkPass = await bcrypt.compare(senhaUsuario, senhaDB);
         if (!checkPass) {
             throw new Error("Senha invalida!");
         }
     },
-    createToken: function (user) {
+    createToken: function (usuario) {
         try {
             const secret = process.env.SECRET;
             const token = jwt.sign({
-                id: user._id,
-                nome: user.nome,
-                tipo: user.tipo
+                id: usuario._id,
+                nome: usuario.nome,
+                tipo: usuario.tipo
             }, secret);
             return token;
         } catch (error) {
@@ -34,12 +34,12 @@ const auth = {
                 return res.status(401).json({ error: "Usuário sem acesso!" });
             }
             const secret = process.env.SECRET;
-            jwt.verify(token, secret, (err, userInfo) => {
+            jwt.verify(token, secret, (err, usuarioInfo) => {
                 if (err) {
                     return res.status(401).json({ error: "Usuário sem acesso!" });
                 }
-                console.log(userInfo);
-                return userInfo;
+                console.log(usuarioInfo);
+                return usuarioInfo;
             });
             next();
         } catch (error) {
