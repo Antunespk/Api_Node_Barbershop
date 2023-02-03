@@ -35,7 +35,7 @@ app.use(usuarioRouter);
 const DB_usuario = process.env.DB_USUARIO;
 const DB_senha = encodeURIComponent(process.env.DB_SENHA);
 // const DB_URI = `mongodb+srv://:${DB_usuario}:${DB_PASS}@api021.h2x5dw1.mongodb.net/test`;
-console.log(DB_senha);
+//console.log(DB_senha);
 mongoose.set('strictQuery', false);
 mongoose.connect(`mongodb+srv://${DB_usuario}:${DB_senha}@api021.h2x5dw1.mongodb.net/test`)
     .then(result => {
