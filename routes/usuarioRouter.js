@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const auth = require('../services/auth');
-const usuario = require('../models/Usuario');
+const Usuario = require('../models/Usuario');
 const multer = require('multer');
 
 router.post("/usuario/add", async function (req, res) {
@@ -12,7 +12,7 @@ router.post("/usuario/add", async function (req, res) {
         // Verifica se usuário já existe
         await verifyusuarioExist(usuario.email);
         usuario.senha = await auth.createNewPass(usuario.senha);
-        await usuario.create(usuario);
+        await Usuario.create(usuario);
         res.status(200).json({ message: "Cadastrado!" });
     } catch (error) {
         res.status(500).json({ error: error.message });

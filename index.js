@@ -9,7 +9,7 @@ const auth = require('./services/auth');
 const app = express();
 
 // app.listen(5050);
-// app.use(cors());
+app.use(cors());
 
 //Configurando Express
 app.use(express.urlencoded({ extended: true }));
@@ -32,10 +32,10 @@ const usuarioRouter = require("./routes/usuarioRouter");
 app.use(usuarioRouter);
 
 //Banco de Dados
-const DB_usuario = process.env.DB_usuario;
-const DB_senha = encodeURIComponent(process.env.DB_senha);
+const DB_usuario = process.env.DB_USUARIO;
+const DB_senha = encodeURIComponent(process.env.DB_SENHA);
 // const DB_URI = `mongodb+srv://:${DB_usuario}:${DB_PASS}@api021.h2x5dw1.mongodb.net/test`;
-
+console.log(DB_senha);
 mongoose.set('strictQuery', false);
 mongoose.connect(`mongodb+srv://${DB_usuario}:${DB_senha}@api021.h2x5dw1.mongodb.net/test`)
     .then(result => {
