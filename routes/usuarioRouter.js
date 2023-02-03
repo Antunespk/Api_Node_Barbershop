@@ -21,7 +21,7 @@ router.post("/usuario/add", async function (req, res) {
 
 router.get("/usuario/list", async function (req, res) {
     try {
-        let usuarios = await usuario.find();
+        let usuarios = await Usuario.find();
         res.status(200).json(usuarios);
     } catch (error) {
         res.status(500).json({ error: "Erro ao listar!" });
@@ -31,7 +31,7 @@ router.get("/usuario/list", async function (req, res) {
 router.get("/usuario/:id", async function (req, res) {
     try {
         let idusuario = req.params.id;
-        let usuario = await usuario.findOne({ _id: idusuario });
+        let usuario = await Usuario.findOne({ _id: idusuario });
         res.status(200).json(usuario);
     } catch (error) {
         res.status(500).json({ error: "Erro ao procurar!" });
@@ -46,7 +46,7 @@ router.patch("/usuario/:id", async function (req, res) {
         // Validar os dados;
         validusuario(usuario, true);
 
-        const updateusuario = await usuario.updateOne({ _id: idusuario }, usuario);
+        const updateusuario = await Usuario.updateOne({ _id: idusuario }, usuario);
 
         if (updateusuario.matchedCount > 0) {
             res.status(200).json({ message: "Atualizado!" });
@@ -62,13 +62,13 @@ router.patch("/usuario/:id", async function (req, res) {
 router.delete("/usuario/:id", async function (req, res) {
     try {
         let idusuario = req.params.id;
-        let usuario = await usuario.findOne({ _id: idusuario });
+        let usuario = await Usuario.findOne({ _id: idusuario });
 
         if (!usuario) {
             throw new Error("Erro ao remover o usuario!");
         }
 
-        let deletusuario = await usuario.deleteOne({ _id: idusuario });
+        let deletusuario = await Usuario.deleteOne({ _id: idusuario });
         if (deletusuario.deletedCount > 0) {
             res.status(200).json({ message: "Removido!" });
             return;
@@ -90,7 +90,7 @@ router.post("/usuario/login", async function (req, res, next) {
             return res.status(401).json({ error: "Usuário sem acesso!" });
         }
 
-        const usuario = await usuario.findOne({ email: email, ative: true });
+        const usuario = await Usuario.findOne({ email: email, ative: true });
         if (!usuario) {
             return res.status(401).json({ error: "Usuário sem acesso!" });
         }
@@ -110,7 +110,7 @@ router.post('/usuario/upload', upload.array('file'), async function (req, res) {
         //const usuarioAuth = await auth.checkToken(req, res);
         const usuarioID = req.body.usuario;
         const filename = req.files[0].filename.toString();
-        const usuarioUpdate = await usuario.updateOne({ _id: usuarioID }, { foto: filename });
+        const usuarioUpdate = await Usuario.updateOne({ _id: usuarioID }, { foto: filename });
         if (filename && usuarioUpdate.matchedCount > 0) {
             let dataSend = { upload: true, files: req.files };
             return res.status(200).json(dataSend);
@@ -175,7 +175,7 @@ function validusuario(usuario) {
 }
 
 async function verifyusuarioExist(email) {
-    let usuario = await usuario.exists({ email: email });
+    let usuario = await Usuario.exists({ email: email });
     if (usuario) {
         throw new Error('Erro ao cadastrar ou usuário já cadastrado!');
     }
